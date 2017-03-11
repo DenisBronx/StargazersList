@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 public class StargazersApiTest {
 
     private Gson gson;
-    private StargazersApi stargazersApi;
+    private StargazersApiTestExtension stargazersApi;
 
     private String stargazerJson = "{\n" +
             "    \"login\": \"octocat\",\n" +
@@ -61,12 +61,12 @@ public class StargazersApiTest {
                 .client(new OkHttpClient.Builder().build())
                 .build();
 
-        stargazersApi = retrofit.create(StargazersApi.class);
+        stargazersApi = retrofit.create(StargazersApiTestExtension.class);
     }
 
     /*
     * Just to check that names of fields are correct
-    * */
+    */
     @Test
     public void checkStargazerParsing() {
 
@@ -92,11 +92,14 @@ public class StargazersApiTest {
 
     }
 
+    /*
+    * Just to check that retrofit and the rest api is configured correctly
+    */
     @Test
     public void testStargazersCall() {
 
         try {
-            Response<List<Stargazer>> response =stargazersApi.getStargazersNonRx("ReactiveX", "RxAndroid", 1).execute();
+            Response<List<Stargazer>> response = stargazersApi.getStargazersNonRx("ReactiveX", "RxAndroid", 1).execute();
 
             assertTrue(response.isSuccessful());
 
