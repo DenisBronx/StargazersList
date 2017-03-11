@@ -1,6 +1,10 @@
 package com.denisbrandi.stargazers.stargazerslist.viewmodel;
 
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
+
 import com.denisbrandi.stargazers.model.Stargazer;
+import com.denisbrandi.stargazers.pagination.Paginator;
 import com.denisbrandi.stargazers.webservice.StargazersApi;
 
 import java.util.List;
@@ -9,6 +13,8 @@ import javax.inject.Inject;
 
 import rx.Observer;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by denis on 11/03/17.
@@ -18,48 +24,72 @@ public class StargazersListViewModel {
 
     public interface StargazersListViewModelListener {
         void onNewData(List<Stargazer> stargazers);
+
         void onDataCleared();
     }
-
-    private int page = 1;
 
     private StargazersApi stargazersApi;
     private StargazersListViewModelListener listener;
     private Subscription apiSubscription;
+    private Paginator paginator;
+
+    public ObservableField<String> owner = new ObservableField<>();
+    public ObservableField<String> repository = new ObservableField<>();
+    public ObservableBoolean showProgress = new ObservableBoolean(false);
+    public ObservableBoolean showEmptyView = new ObservableBoolean(false);
+    public ObservableBoolean showPlaceholder = new ObservableBoolean(true);
+
+    private int dataCount;
 
     @Inject
-    public StargazersListViewModel(StargazersApi stargazersApi, StargazersListViewModelListener listener) {
+    public StargazersListViewModel(StargazersApi stargazersApi, Paginator paginator, StargazersListViewModelListener listener) {
         this.stargazersApi = stargazersApi;
+        this.paginator = paginator;
         this.listener = listener;
     }
 
-    public void updateList(String owner, String repo) {
+    public void startSearch() {
+        paginator.cleanup();
+        showProgress.set(true);
+        listener.onDataCleared();
         unsubscribe();
-        page = 1;
-        getStargazers(owner, repo);
+        getStargazers();
     }
 
-    private void getStargazers(String owner, String repo) {
-        apiSubscription = stargazersApi.getStargazers(owner, repo, page).subscribe(new Observer<List<Stargazer>>() {
-            @Override
-            public void onCompleted() {
+    public void setDataCount(int dataCount) {
+        this.dataCount = dataCount;
+        showEmptyView.set(dataCount == 0);
+    }
 
-            }
+    public void getStargazers() {
+        apiSubscription = stargazersApi
+                .getStargazers(owner.get(), repository.get(), paginator.getPage())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Stargazer>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
 
-            @Override
-            public void onNext(List<Stargazer> stargazers) {
-                listener.onNewData(stargazers);
-            }
-        });
+                    @Override
+                    public void onNext(List<Stargazer> stargazers) {
+                        showNewData(stargazers);
+                    }
+                });
+    }
+
+    void showNewData(List<Stargazer> stargazers) {
+        showPlaceholder.set(false);
+        showProgress.set(false);
+        listener.onNewData(stargazers);
     }
 
     public void cleanup() {
-        page = 1;
         unsubscribe();
     }
 

@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 public class Paginator {
 
+    private int page = 1;
+
     public interface PaginatorListener {
         void onPaginationProgress();
     }
@@ -37,12 +39,17 @@ public class Paginator {
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem)) {
 
             if (totalItemCount > 0 && !isPaginationProgressVisible) {
+                page++;
                 listener.onPaginationProgress();
             }
 
             loading = true;
         }
 
+    }
+
+    public int getPage() {
+        return page;
     }
 
     public void setLimitReached(boolean limitReached) {
@@ -53,5 +60,6 @@ public class Paginator {
         previousTotal = 0;
         loading = true;
         limitReached = false;
+        page = 1;
     }
 }
