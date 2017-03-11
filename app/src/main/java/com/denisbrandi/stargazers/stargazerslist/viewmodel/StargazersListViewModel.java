@@ -61,6 +61,10 @@ public class StargazersListViewModel {
         showEmptyView.set(dataCount == 0);
     }
 
+    public Paginator getPaginator() {
+        return paginator;
+    }
+
     public void getStargazers() {
         apiSubscription = stargazersApi
                 .getStargazers(owner.get(), repository.get(), paginator.getPage())
@@ -87,6 +91,7 @@ public class StargazersListViewModel {
         showPlaceholder.set(false);
         showProgress.set(false);
         listener.onNewData(stargazers);
+        paginator.setLimitReached(stargazers == null || stargazers.size() == 0);
     }
 
     public void cleanup() {

@@ -1,6 +1,7 @@
 package com.denisbrandi.stargazers.dagger.module;
 
 import com.denisbrandi.stargazers.pagination.Paginator;
+import com.denisbrandi.stargazers.stargazerslist.adapter.StargazersListAdapter;
 import com.denisbrandi.stargazers.stargazerslist.viewmodel.StargazersListViewModel;
 import com.denisbrandi.stargazers.webservice.StargazersApi;
 
@@ -19,6 +20,11 @@ public class StargazersModule {
     public StargazersModule(StargazersListViewModel.StargazersListViewModelListener viewModelListener, Paginator.PaginatorListener paginatorListener) {
         this.viewModelListener = viewModelListener;
         this.paginatorListener = paginatorListener;
+    }
+
+    @Provides
+    StargazersListAdapter provideStargazersListAdapter() {
+        return new StargazersListAdapter();
     }
 
     @Provides
