@@ -2,6 +2,7 @@ package com.denisbrandi.stargazers.dagger.module;
 
 import android.app.Application;
 
+import com.denisbrandi.stargazers.webservice.StargazersApi;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -61,7 +62,6 @@ public class NetModule {
         return client.build();
     }
 
-
     @Provides
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
@@ -71,5 +71,11 @@ public class NetModule {
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    StargazersApi provideStargazersApi(Retrofit retrofit) {
+        return retrofit.create(StargazersApi.class);
     }
 }
