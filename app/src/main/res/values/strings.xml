@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">StargazersList</string>
-    <string name="owner">owner</string>
-    <string name="repository">repository</string>
+    <string name="owner">Owner</string>
+    <string name="repository">Repository</string>
+    <string name="placeholder">Insert owner and repository to search the Stargazers.</string>
+    <string name="emptySearch">No Stargazers found in this search.</string>
 </resources>

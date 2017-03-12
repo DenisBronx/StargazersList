@@ -25,14 +25,16 @@
             android:layout_height="@dimen/list_item_avatar_size"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            app:imageUrl="@{viewModel.imageUrl}" />
+            app:imageUrl="@{viewModel.imageUrl}"
+            app:placeholder="@{@drawable/ic_account_circle_grey_24dp}"/>
 
         <TextView
             android:id="@android:id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{viewModel.name}"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@android:color/black"/>
 
     </LinearLayout>
 

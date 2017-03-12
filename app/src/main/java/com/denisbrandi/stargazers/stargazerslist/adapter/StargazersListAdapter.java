@@ -17,18 +17,61 @@ import com.denisbrandi.stargazers.stargazerslist.viewmodel.ItemListStargazersVie
 
 public class StargazersListAdapter extends BaseAdapter<ItemListStargazersViewModel, StargazersListAdapter.ViewHolder> {
 
+    private class ViewType {
+        static final int ITEM = 1;
+        static final int PROGRESS = 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        ItemListStargazersViewModel viewModel = getItem(position);
+
+        if (viewModel.isProgress()) {
+            return ViewType.PROGRESS;
+        } else {
+            return ViewType.ITEM;
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View rowView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_stargazer, parent, false);
+        View rowView;
+        boolean dataBinding;
 
-        return new ViewHolder(rowView);
+        if (viewType == ViewType.ITEM) {
+            rowView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_stargazer, parent, false);
+            dataBinding = true;
+        } else {
+            rowView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false);
+            dataBinding = false;
+        }
+
+        return new ViewHolder(rowView, dataBinding);
+    }
+
+    @Override
+    public void addItem(ItemListStargazersViewModel item) {
+        removeProgress();
+        super.addItem(item);
+    }
+
+    public void removeProgress() {
+        if (getItemCount() > 0 && getItem(getItemCount() - 1).isProgress()) {
+            removeItem(getItemCount() - 1);
+        }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.getBinding().setViewModel(getItem(position));
+        ItemListStargazersViewModel viewModel = getItem(position);
+
+        if (viewModel.isProgress())
+            return;
+
+        holder.getBinding().setViewModel(viewModel);
         holder.getBinding().executePendingBindings();
 
     }
@@ -37,9 +80,10 @@ public class StargazersListAdapter extends BaseAdapter<ItemListStargazersViewMod
 
         private ItemStargazerBinding binding;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, boolean dataBinding) {
             super(itemView);
-            binding = DataBindingUtil.bind(itemView);
+            if (dataBinding)
+                binding = DataBindingUtil.bind(itemView);
         }
 
         public ItemStargazerBinding getBinding() {

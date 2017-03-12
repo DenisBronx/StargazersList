@@ -13,6 +13,7 @@ import com.denisbrandi.stargazers.dagger.module.StargazersModule;
 import com.denisbrandi.stargazers.databinding.ActivityStargazerslistBinding;
 import com.denisbrandi.stargazers.model.Stargazer;
 import com.denisbrandi.stargazers.pagination.Paginator;
+import com.denisbrandi.stargazers.rx.RxFullRecyclerViewAdapter;
 import com.denisbrandi.stargazers.stargazerslist.adapter.StargazersListAdapter;
 import com.denisbrandi.stargazers.stargazerslist.viewmodel.ItemListStargazersViewModel;
 import com.denisbrandi.stargazers.stargazerslist.viewmodel.StargazersListViewModel;
@@ -66,6 +67,13 @@ public class StargazersListActivity extends BaseActivity implements StargazersLi
             }
         }));
 
+        compositeSubscription.add(RxFullRecyclerViewAdapter.dataChanges(adapter).subscribe(new Action1<StargazersListAdapter>() {
+            @Override
+            public void call(StargazersListAdapter stargazersListAdapter) {
+                viewModel.setDataCount(adapter.getItemCount());
+            }
+        }));
+
 
     }
 
@@ -85,6 +93,12 @@ public class StargazersListActivity extends BaseActivity implements StargazersLi
     @Override
     public void onPaginationProgress() {
         viewModel.getStargazers();
+        adapter.addItem(new ItemListStargazersViewModel(true));
+    }
+
+    @Override
+    public void onLimitReached() {
+        adapter.removeProgress();
     }
 
     @Override

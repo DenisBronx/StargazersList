@@ -17,6 +17,11 @@ public abstract class BaseAdapter<T, VH extends RecyclerView.ViewHolder> extends
         notifyItemInserted(getItemCount()-1);
     }
 
+    public void removeItem(int position) {
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public ArrayList<T> getItems() {
         return items;
     }

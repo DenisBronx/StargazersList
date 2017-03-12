@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 
 import com.denisbrandi.stargazers.model.Stargazer;
 import com.denisbrandi.stargazers.pagination.Paginator;
+import com.denisbrandi.stargazers.utils.StringUtils;
 import com.denisbrandi.stargazers.webservice.StargazersApi;
 
 import java.util.List;
@@ -59,6 +60,7 @@ public class StargazersListViewModel {
     public void setDataCount(int dataCount) {
         this.dataCount = dataCount;
         showEmptyView.set(dataCount == 0);
+        showPlaceholder.set(false);
     }
 
     public Paginator getPaginator() {
@@ -66,6 +68,10 @@ public class StargazersListViewModel {
     }
 
     public void getStargazers() {
+
+        if (StringUtils.isEmpty(owner.get()) || StringUtils.isEmpty(repository.get()))
+            return;
+
         apiSubscription = stargazersApi
                 .getStargazers(owner.get(), repository.get(), paginator.getPage())
                 .subscribeOn(Schedulers.newThread())
@@ -88,7 +94,6 @@ public class StargazersListViewModel {
     }
 
     void showNewData(List<Stargazer> stargazers) {
-        showPlaceholder.set(false);
         showProgress.set(false);
         listener.onNewData(stargazers);
         paginator.setLimitReached(stargazers == null || stargazers.size() == 0);

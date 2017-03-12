@@ -12,6 +12,7 @@ public class Paginator {
 
     public interface PaginatorListener {
         void onPaginationProgress();
+        void onLimitReached();
     }
 
     private int previousTotal = 0;
@@ -54,6 +55,7 @@ public class Paginator {
 
     public void setLimitReached(boolean limitReached) {
         this.limitReached = limitReached;
+        listener.onLimitReached();
     }
 
     public void cleanup() {
