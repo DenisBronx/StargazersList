@@ -1,9 +1,11 @@
 package com.denisbrandi.stargazers.model;
 
+import org.parceler.Parcel;
+
 /**
  * Created by denis on 11/03/17.
  */
-
+@Parcel
 public class Stargazer {
 
     private String login;

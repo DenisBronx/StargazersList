@@ -2,6 +2,8 @@ package com.denisbrandi.stargazers.stargazerslist.viewmodel;
 
 import com.denisbrandi.stargazers.model.Stargazer;
 
+import javax.inject.Inject;
+
 /**
  * Created by denis on 12/03/17.
  */
@@ -10,6 +12,7 @@ public class StargazerDetailViewModel {
 
     private Stargazer stargazer;
 
+    @Inject
     public StargazerDetailViewModel(Stargazer stargazer) {
         this.stargazer = stargazer;
     }
