@@ -3,5 +3,5 @@
     <string name="owner">Owner</string>
     <string name="repository">Repository</string>
     <string name="placeholder">Insert owner and repository to search the Stargazers.</string>
-    <string name="emptySearch">No Stargazers found in this search.</string>
+    <string name="emptySearch">No Stargazer found in this search.</string>
 </resources>

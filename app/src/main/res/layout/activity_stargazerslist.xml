@@ -60,47 +60,56 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:onClick="@{()->viewModel.startSearch()}"
             android:src="@drawable/ic_search_white_24dp"
             app:fabSize="normal"
-            android:id="@+id/fab_search"
             app:layout_anchor="@+id/appbar"
             app:layout_anchorGravity="bottom|end" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="@{viewModel.showProgress?View.VISIBLE:View.GONE}" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:gravity="center"
-            android:text="@string/placeholder"
-            android:textColor="@android:color/black"
-            android:visibility="@{viewModel.showPlaceholder?View.VISIBLE:View.GONE}" />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.showProgress?View.VISIBLE:View.GONE}" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:gravity="center"
-            android:text="@string/emptySearch"
-            android:textColor="@android:color/black"
-            android:visibility="@{viewModel.showEmptyView?View.VISIBLE:View.GONE}" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="48dp"
+                android:gravity="center"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="@string/placeholder"
+                android:textColor="@android:color/black"
+                android:visibility="@{!viewModel.showProgress &amp;&amp; viewModel.showPlaceholder?View.VISIBLE:View.GONE}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="48dp"
+                android:gravity="center"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="@string/emptySearch"
+                android:textColor="@android:color/black"
+                android:visibility="@{!viewModel.showProgress &amp;&amp; !viewModel.showPlaceholder &amp;&amp; viewModel.showEmptyView?View.VISIBLE:View.GONE}" />
+
+
+        </FrameLayout>
 
 
     </android.support.design.widget.CoordinatorLayout>

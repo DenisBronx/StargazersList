@@ -60,7 +60,6 @@ public class StargazersListViewModel {
     public void setDataCount(int dataCount) {
         this.dataCount = dataCount;
         showEmptyView.set(dataCount == 0);
-        showPlaceholder.set(false);
     }
 
     public Paginator getPaginator() {
@@ -95,6 +94,7 @@ public class StargazersListViewModel {
 
     void showNewData(List<Stargazer> stargazers) {
         showProgress.set(false);
+        showPlaceholder.set(false);
         listener.onNewData(stargazers);
         paginator.setLimitReached(stargazers == null || stargazers.size() == 0);
     }
