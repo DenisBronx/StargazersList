@@ -14,18 +14,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -52,7 +45,9 @@ public class StargazersListActivityTest {
             e.printStackTrace();
         }
 
-        onView(withId(R.id.list)).perform(RecyclerViewActions.scrollToPosition(29));
+        ViewInteraction recyclerView = onView(withId(R.id.list));
+
+        recyclerView.perform(RecyclerViewActions.scrollToPosition(29));
 
         try {
             Thread.sleep(3000);
@@ -60,7 +55,7 @@ public class StargazersListActivityTest {
             e.printStackTrace();
         }
 
-        onView(withId(R.id.list)).perform(RecyclerViewActions.scrollToPosition(59));
+        recyclerView.perform(RecyclerViewActions.scrollToPosition(59));
 
         try {
             Thread.sleep(3000);
@@ -68,10 +63,12 @@ public class StargazersListActivityTest {
             e.printStackTrace();
         }
 
-        onView(withId(R.id.list)).perform(RecyclerViewActions.scrollToPosition(89));
+        recyclerView.perform(RecyclerViewActions.scrollToPosition(89));
+
+        recyclerView.perform(actionOnItemAtPosition(85, click()));
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(6000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
