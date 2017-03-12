@@ -1,7 +1,6 @@
 package com.denisbrandi.stargazers.stargazerslist.view;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -12,6 +11,7 @@ import com.denisbrandi.stargazers.dagger.component.DaggerStargazersListComponent
 import com.denisbrandi.stargazers.dagger.module.StargazersModule;
 import com.denisbrandi.stargazers.databinding.ActivityStargazerslistBinding;
 import com.denisbrandi.stargazers.model.Stargazer;
+import com.denisbrandi.stargazers.navigation.Navigator;
 import com.denisbrandi.stargazers.pagination.Paginator;
 import com.denisbrandi.stargazers.rx.RxFullRecyclerViewAdapter;
 import com.denisbrandi.stargazers.stargazerslist.adapter.StargazersListAdapter;
@@ -34,6 +34,9 @@ public class StargazersListActivity extends BaseActivity implements StargazersLi
     @Inject
     StargazersListAdapter adapter;
 
+    @Inject
+    Navigator navigator;
+
     private ActivityStargazerslistBinding binding;
 
     @Override
@@ -47,7 +50,7 @@ public class StargazersListActivity extends BaseActivity implements StargazersLi
 
         DaggerStargazersListComponent.builder()
                 .netComponent(((StargazersApp) getApplication()).getNetComponent())
-                .stargazersModule(new StargazersModule(this, this))
+                .stargazersModule(new StargazersModule(this, this, this))
                 .build().inject(this);
 
         binding.setViewModel(viewModel);
@@ -81,7 +84,7 @@ public class StargazersListActivity extends BaseActivity implements StargazersLi
     public void onNewData(List<Stargazer> stargazers) {
         if (stargazers != null)
             for (Stargazer stargazer : stargazers) {
-                adapter.addItem(new ItemListStargazersViewModel(stargazer));
+                adapter.addItem(new ItemListStargazersViewModel(stargazer, navigator));
             }
     }
 

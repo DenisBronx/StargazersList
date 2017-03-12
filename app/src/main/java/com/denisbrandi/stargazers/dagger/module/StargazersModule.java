@@ -1,5 +1,7 @@
 package com.denisbrandi.stargazers.dagger.module;
 
+import com.denisbrandi.stargazers.base.BaseActivity;
+import com.denisbrandi.stargazers.navigation.Navigator;
 import com.denisbrandi.stargazers.pagination.Paginator;
 import com.denisbrandi.stargazers.stargazerslist.adapter.StargazersListAdapter;
 import com.denisbrandi.stargazers.stargazerslist.viewmodel.StargazersListViewModel;
@@ -14,10 +16,12 @@ import dagger.Provides;
 @Module
 public class StargazersModule {
 
+    private BaseActivity baseActivity;
     private StargazersListViewModel.StargazersListViewModelListener viewModelListener;
     private Paginator.PaginatorListener paginatorListener;
 
-    public StargazersModule(StargazersListViewModel.StargazersListViewModelListener viewModelListener, Paginator.PaginatorListener paginatorListener) {
+    public StargazersModule(BaseActivity baseActivity,StargazersListViewModel.StargazersListViewModelListener viewModelListener, Paginator.PaginatorListener paginatorListener) {
+        this.baseActivity = baseActivity;
         this.viewModelListener = viewModelListener;
         this.paginatorListener = paginatorListener;
     }
@@ -35,6 +39,11 @@ public class StargazersModule {
     @Provides
     StargazersListViewModel provideStargazersListViewModel(StargazersApi stargazersApi, Paginator paginator) {
         return new StargazersListViewModel(stargazersApi, paginator, viewModelListener);
+    }
+
+    @Provides
+    Navigator provideNavigator() {
+        return new Navigator(baseActivity);
     }
 
 }

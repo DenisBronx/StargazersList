@@ -19,6 +19,6 @@ public class ImageBinding {
 
     @BindingAdapter({"imageUrl", "placeholder"})
     public static void setImageUrl(ImageView imageView, String imageUrl, Drawable placeholder) {
-        Glide.with(imageView.getContext()).load(imageUrl).placeholder(placeholder).into(imageView);
+        Glide.with(imageView.getContext()).load(imageUrl).placeholder(placeholder).dontAnimate().into(imageView);
     }
 }
