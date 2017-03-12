@@ -13,13 +13,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:paddingBottom="8dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="8dp"
-        android:background="?attr/selectableItemBackground"
-        >
+        android:paddingTop="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar"
@@ -27,8 +26,9 @@
             android:layout_height="@dimen/list_item_avatar_size"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
+            android:src="@drawable/ic_account_circle_grey_24dp"
             app:imageUrl="@{viewModel.imageUrl}"
-            app:placeholder="@{@drawable/ic_account_circle_grey_24dp}"/>
+            app:placeholder="@{@drawable/ic_account_circle_grey_24dp}" />
 
         <TextView
             android:id="@android:id/text1"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="@{viewModel.name}"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
 

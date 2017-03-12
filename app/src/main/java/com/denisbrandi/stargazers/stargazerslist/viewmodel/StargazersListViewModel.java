@@ -40,8 +40,6 @@ public class StargazersListViewModel {
     public ObservableBoolean showEmptyView = new ObservableBoolean(false);
     public ObservableBoolean showPlaceholder = new ObservableBoolean(true);
 
-    private int dataCount;
-
     @Inject
     public StargazersListViewModel(StargazersApi stargazersApi, Paginator paginator, StargazersListViewModelListener listener) {
         this.stargazersApi = stargazersApi;
@@ -58,7 +56,6 @@ public class StargazersListViewModel {
     }
 
     public void setDataCount(int dataCount) {
-        this.dataCount = dataCount;
         showEmptyView.set(dataCount == 0);
     }
 
@@ -68,8 +65,12 @@ public class StargazersListViewModel {
 
     public void getStargazers() {
 
-        if (StringUtils.isEmpty(owner.get()) || StringUtils.isEmpty(repository.get()))
+        if (StringUtils.isEmpty(owner.get()) || StringUtils.isEmpty(repository.get())) {
+            showProgress.set(false);
+            showPlaceholder.set(true);
+            listener.onDataCleared();
             return;
+        }
 
         apiSubscription = stargazersApi
                 .getStargazers(owner.get(), repository.get(), paginator.getPage())
@@ -83,6 +84,7 @@ public class StargazersListViewModel {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        showNewData(null);
                     }
 
                     @Override

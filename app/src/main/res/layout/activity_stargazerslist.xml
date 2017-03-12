@@ -37,6 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/owner"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:text="@={viewModel.owner}" />
 
@@ -51,6 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/repository"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:text="@={viewModel.repository}" />
 
