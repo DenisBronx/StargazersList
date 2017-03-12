@@ -1,20 +1,20 @@
 <resources>
-    <string name="app_name">StargazersList</string>
+    <string name="app_name" translatable="false">StargazersList</string>
     <string name="owner">Owner</string>
     <string name="repository">Repository</string>
     <string name="placeholder">Insert owner and repository to search the Stargazers.</string>
     <string name="emptySearch">No Stargazer found in this search.</string>
-    <string name="gravatar_id">Gravatar id:</string>
-    <string name="url">Url:</string>
-    <string name="html_url">Html url:</string>
-    <string name="followers_url">Followers url:</string>
-    <string name="following_url">Following url:</string>
-    <string name="gists_url">Gists url:</string>
-    <string name="starred_url">Starred url:</string>
-    <string name="subscriptions_url">Subscriptions url:</string>
-    <string name="organizations_url">Organizations url:</string>
-    <string name="repos_url">Repos url:</string>
-    <string name="events_url">Events url:</string>
-    <string name="received_events_url">Received events url:</string>
-    <string name="type">Type:</string>
+    <string name="gravatar_id" translatable="false">Gravatar id:</string>
+    <string name="url" translatable="false">Url:</string>
+    <string name="html_url" translatable="false">Html url:</string>
+    <string name="followers_url" translatable="false">Followers url:</string>
+    <string name="following_url" translatable="false">Following url:</string>
+    <string name="gists_url" translatable="false">Gists url:</string>
+    <string name="starred_url" translatable="false">Starred url:</string>
+    <string name="subscriptions_url" translatable="false">Subscriptions url:</string>
+    <string name="organizations_url" translatable="false">Organizations url:</string>
+    <string name="repos_url" translatable="false">Repos url:</string>
+    <string name="events_url" translatable="false">Events url:</string>
+    <string name="received_events_url" translatable="false">Received events url:</string>
+    <string name="type" translatable="false">Type:</string>
 </resources>

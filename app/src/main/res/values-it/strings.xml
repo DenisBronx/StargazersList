@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="owner">Proprietario</string>
+    <string name="repository">Repository</string>
+    <string name="placeholder">Inserisci proprietario e repository per cercare gli Stargazers</string>
+    <string name="emptySearch">Nessuno Stargazers trovato con questa ricerca</string>
+
+</resources>
