@@ -44,6 +44,11 @@
                     app:layout_collapseMode="parallax"
                     app:placeholder="@{@drawable/ic_account_circle_grey_24dp}" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shadow"/>
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
