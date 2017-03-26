@@ -59,8 +59,8 @@ public class StargazersListViewModel {
         showEmptyView.set(dataCount == 0);
     }
 
-    public Paginator getPaginator() {
-        return paginator;
+    public void calculatePagination(int totalItemCount, int visibleItemCount, int firstVisibleItem, boolean isPaginationProgressVisible) {
+        paginator.calculatePagination(totalItemCount, visibleItemCount, firstVisibleItem, isPaginationProgressVisible);
     }
 
     public void getStargazers() {

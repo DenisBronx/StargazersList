@@ -66,7 +66,7 @@ public class StargazersListActivity extends BaseActivity implements StargazersLi
                 int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
                 boolean progressVisible = adapter.getItemCount() > 0 && adapter.getItem(adapter.getItemCount() - 1).isProgress();
 
-                viewModel.getPaginator().calculatePagination(totalItemCount, visibleItemCount, firstVisibleItem, progressVisible);
+                viewModel.calculatePagination(totalItemCount, visibleItemCount, firstVisibleItem, progressVisible);
             }
         }));
 
