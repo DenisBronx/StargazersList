@@ -11,6 +11,8 @@ import com.denisbrandi.stargazers.base.BaseAdapter;
 import com.denisbrandi.stargazers.databinding.ItemStargazerBinding;
 import com.denisbrandi.stargazers.stargazerslist.viewmodel.ItemListStargazersViewModel;
 
+import java.util.Collection;
+
 /**
  * Created by denis on 11/03/17.
  */
@@ -55,6 +57,12 @@ public class StargazersListAdapter extends BaseAdapter<ItemListStargazersViewMod
     public void addItem(ItemListStargazersViewModel item) {
         removeProgress();
         super.addItem(item);
+    }
+
+    @Override
+    public void addItems(Collection<ItemListStargazersViewModel> itemsToAdd) {
+        removeProgress();
+        super.addItems(itemsToAdd);
     }
 
     public void removeProgress() {

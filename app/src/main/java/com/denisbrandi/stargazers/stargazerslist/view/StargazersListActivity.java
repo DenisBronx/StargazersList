@@ -20,6 +20,7 @@ import com.denisbrandi.stargazers.stargazerslist.viewmodel.StargazersListViewMod
 import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -82,10 +83,13 @@ public class StargazersListActivity extends BaseActivity implements StargazersLi
 
     @Override
     public void onNewData(List<Stargazer> stargazers) {
-        if (stargazers != null)
+        if (stargazers != null) {
+            ArrayList<ItemListStargazersViewModel> items = new ArrayList<>();
             for (Stargazer stargazer : stargazers) {
-                adapter.addItem(new ItemListStargazersViewModel(stargazer, navigator));
+                items.add(new ItemListStargazersViewModel(stargazer, navigator));
             }
+            adapter.addItems(items);
+        }
     }
 
     @Override
