@@ -8,16 +8,18 @@ import com.google.gson.GsonBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observer;
+import rx.schedulers.Schedulers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by denis on 11/03/17.
@@ -25,7 +27,7 @@ import static org.junit.Assert.*;
 public class StargazersApiTest {
 
     private Gson gson;
-    private StargazersApiTestExtension stargazersApi;
+    private StargazersApi stargazersApi;
 
     private String stargazerJson = "{\n" +
             "    \"login\": \"octocat\",\n" +
@@ -61,7 +63,7 @@ public class StargazersApiTest {
                 .client(new OkHttpClient.Builder().build())
                 .build();
 
-        stargazersApi = retrofit.create(StargazersApiTestExtension.class);
+        stargazersApi = retrofit.create(StargazersApi.class);
     }
 
     /*
@@ -98,14 +100,28 @@ public class StargazersApiTest {
     @Test
     public void testStargazersCall() {
 
-        try {
-            Response<List<Stargazer>> response = stargazersApi.getStargazersNonRx("ReactiveX", "RxAndroid", 1).execute();
+        final List<Stargazer> stargazersFinal = new ArrayList<>();
 
-            assertTrue(response.isSuccessful());
+        stargazersApi.getStargazers("ReactiveX", "RxAndroid", 1)
+                .subscribeOn(Schedulers.immediate())
+                .observeOn(Schedulers.immediate())
+                .subscribe(new Observer<List<Stargazer>>() {
+                    @Override
+                    public void onCompleted() {
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<Stargazer> stargazers) {
+                        stargazersFinal.addAll(stargazers);
+                    }
+                });
+
+        assertTrue(!stargazersFinal.isEmpty());
 
     }
 

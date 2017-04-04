@@ -12,8 +12,12 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.schedulers.Schedulers;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -44,7 +48,7 @@ public class StargazersListViewModelTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         paginator = new Paginator(paginatorListener);
-        viewModel = new StargazersListViewModel(stargazersApi, paginator, viewModelListener);
+        viewModel = new StargazersListViewModel(stargazersApi, paginator, Schedulers.immediate(), Schedulers.immediate(), viewModelListener);
     }
 
     @After
@@ -66,8 +70,14 @@ public class StargazersListViewModelTest {
     public void searchWithResults() {
 
         when(dummyList.size()).thenReturn(30);
+
+        viewModel.owner.set(owner);
+        viewModel.repository.set(repository);
+
+        when(stargazersApi.getStargazers(anyString(), anyString(), anyInt())).thenReturn(Observable.just(dummyList));
+
         assertTrue(viewModel.showPlaceholder.get());
-        viewModel.showNewData(dummyList);
+        viewModel.startSearch();
         assertFalse(viewModel.showPlaceholder.get());
         viewModel.setDataCount(dummyList.size());
         assertFalse(viewModel.showEmptyView.get());
@@ -77,8 +87,14 @@ public class StargazersListViewModelTest {
     public void searchWithNoResults() {
 
         when(dummyList.size()).thenReturn(0);
+
+        viewModel.owner.set(owner);
+        viewModel.repository.set(repository);
+
+        when(stargazersApi.getStargazers(anyString(), anyString(), anyInt())).thenReturn(Observable.just(dummyList));
+
         assertTrue(viewModel.showPlaceholder.get());
-        viewModel.showNewData(dummyList);
+        viewModel.startSearch();
         assertFalse(viewModel.showPlaceholder.get());
         viewModel.setDataCount(dummyList.size());
         assertTrue(viewModel.showEmptyView.get());

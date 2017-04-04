@@ -9,6 +9,8 @@ import com.denisbrandi.stargazers.webservice.StargazersApi;
 
 import dagger.Module;
 import dagger.Provides;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by denis on 11/03/17.
@@ -38,7 +40,7 @@ public class StargazersModule {
 
     @Provides
     StargazersListViewModel provideStargazersListViewModel(StargazersApi stargazersApi, Paginator paginator) {
-        return new StargazersListViewModel(stargazersApi, paginator, viewModelListener);
+        return new StargazersListViewModel(stargazersApi, paginator, Schedulers.newThread(), AndroidSchedulers.mainThread(), viewModelListener);
     }
 
     @Provides
