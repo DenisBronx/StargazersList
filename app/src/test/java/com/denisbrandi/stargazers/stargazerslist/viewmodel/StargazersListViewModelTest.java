@@ -2,10 +2,12 @@ package com.denisbrandi.stargazers.stargazerslist.viewmodel;
 
 import com.denisbrandi.stargazers.model.Stargazer;
 import com.denisbrandi.stargazers.pagination.Paginator;
+import com.denisbrandi.stargazers.util.RxSchedulersOverrideRule;
 import com.denisbrandi.stargazers.webservice.StargazersApi;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -34,6 +35,9 @@ public class StargazersListViewModelTest {
     private String owner = "owner";
     private String repository = "repository";
 
+    @Rule
+    public final RxSchedulersOverrideRule mOverrideSchedulersRule = new RxSchedulersOverrideRule();
+
     @Mock
     private Paginator.PaginatorListener paginatorListener;
     @Mock
@@ -48,7 +52,7 @@ public class StargazersListViewModelTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         paginator = new Paginator(paginatorListener);
-        viewModel = new StargazersListViewModel(stargazersApi, paginator, Schedulers.immediate(), Schedulers.immediate(), viewModelListener);
+        viewModel = new StargazersListViewModel(stargazersApi, paginator, viewModelListener);
     }
 
     @After

@@ -13,8 +13,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observer;
-import rx.Scheduler;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by denis on 11/03/17.
@@ -33,8 +34,6 @@ public class StargazersListViewModel {
     private Subscription apiSubscription;
     private Paginator paginator;
 
-    private Scheduler backgroundScheduler, mainScheduler;
-
     public ObservableField<String> owner = new ObservableField<>();
     public ObservableField<String> repository = new ObservableField<>();
     public ObservableBoolean showProgress = new ObservableBoolean(false);
@@ -42,11 +41,9 @@ public class StargazersListViewModel {
     public ObservableBoolean showPlaceholder = new ObservableBoolean(true);
 
     @Inject
-    public StargazersListViewModel(StargazersApi stargazersApi, Paginator paginator, Scheduler backgroundScheduler, Scheduler mainScheduler, StargazersListViewModelListener listener) {
+    public StargazersListViewModel(StargazersApi stargazersApi, Paginator paginator, StargazersListViewModelListener listener) {
         this.stargazersApi = stargazersApi;
         this.paginator = paginator;
-        this.backgroundScheduler = backgroundScheduler;
-        this.mainScheduler = mainScheduler;
         this.listener = listener;
     }
 
@@ -77,8 +74,8 @@ public class StargazersListViewModel {
 
         apiSubscription = stargazersApi
                 .getStargazers(owner.get(), repository.get(), paginator.getPage())
-                .subscribeOn(backgroundScheduler)
-                .observeOn(mainScheduler)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Stargazer>>() {
                     @Override
                     public void onCompleted() {

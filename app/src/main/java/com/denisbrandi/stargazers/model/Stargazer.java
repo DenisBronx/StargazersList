@@ -8,23 +8,23 @@ import org.parceler.Parcel;
 @Parcel
 public class Stargazer {
 
-    private String login;
-    private int id;
-    private String avatarUrl;
-    private String gravatarId;
-    private String url;
-    private String htmlUrl;
-    private String followersUrl;
-    private String followingUrl;
-    private String gistsUrl;
-    private String starredUrl;
-    private String subscriptionsUrl;
-    private String organizationsUrl;
-    private String reposUrl;
-    private String eventsUrl;
-    private String receivedEventsUrl;
-    private String type;
-    private boolean siteAdmin;
+    String login;
+    int id;
+    String avatarUrl;
+    String gravatarId;
+    String url;
+    String htmlUrl;
+    String followersUrl;
+    String followingUrl;
+    String gistsUrl;
+    String starredUrl;
+    String subscriptionsUrl;
+    String organizationsUrl;
+    String reposUrl;
+    String eventsUrl;
+    String receivedEventsUrl;
+    String type;
+    boolean siteAdmin;
 
     public String getLogin() {
         return login;
